@@ -45,6 +45,7 @@ if (isset($_POST['delete'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/style.css">
     <title>Category</title>
 </head>
 <body>
@@ -76,7 +77,7 @@ if (isset($_POST['delete'])) {
             Settings
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="../profile">Profile</a></li>
             <li><a class="dropdown-item" href="../logout.php">Log Out</a></li>
           </ul>
         </li>

@@ -50,6 +50,7 @@ if (isset($_POST['register'])) {
     <title>Users</title>
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 
 <body>
@@ -80,7 +81,7 @@ if (isset($_POST['register'])) {
             Settings
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="../profile">Profile</a></li>
             <li><a class="dropdown-item" href="../logout.php">Log Out</a></li>
           </ul>
         </li>

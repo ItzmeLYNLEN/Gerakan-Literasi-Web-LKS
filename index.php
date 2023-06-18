@@ -10,10 +10,16 @@ if (isset($_GET['id'])) {
   $id = $_GET['id'];
   $category = $conn->query("SELECT * FROM category WHERE id = $id")->fetch_assoc();
 }
+if (isset($_GET['cari'])) {
+  $cari = $conn->query("SELECT * FROM content WHERE title LIKE '%" .
+    $_GET['cari'] . "%'");
+}
 
 $tampil = $conn->query("SELECT * FROM content INNER JOIN users ON content.user_id = users.id");
 
 // $tampil = $conn->query("SELECT * FROM content");
+
+$kategori = $conn->query("SELECT * FROM category");
 
 $users = $conn->query("SELECT * FROM users");
 
@@ -69,8 +75,18 @@ $users = $conn->query("SELECT * FROM users");
         </ul>
 
         <ul class="navbar-nav ms-auto">
-          <form class="d-flex " role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <div class="dropdown-center">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Book Category
+            </button>
+            <ul class="dropdown-menu">
+              <?php foreach ($kategori as $cat) {  ?>
+              <li><a class="dropdown-item" href="#"><?= $cat['name'] ?></a></li>
+              <?php } ?>
+            </ul>
+          </div>
+          <form method="get" class="d-flex " role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" name="cari" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
           <li class="nav-item dropdown">
@@ -78,7 +94,7 @@ $users = $conn->query("SELECT * FROM users");
               Settings
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="profile/index.php?id=<?= $_SESSION['user'] ?>">Profile</a></li>
+              <li><a class="dropdown-item" href="profile">Profile</a></li>
               <li><a class="dropdown-item" href="logout.php">Log Out</a></li>
             </ul>
           </li>
@@ -134,54 +150,47 @@ $users = $conn->query("SELECT * FROM users");
 
   <section id="project">
     <div class="container mt-5 mb-5">
-            <div class="row">
-                <div class="col-md-3">
-                    <h5 class="fw-bold">Buku Untukmu</h5>
-                </div>
-                <div class="col-md-9">
-                    <div class="row">
-                        <?php foreach ($tampil as $show) { ?>
-                            <div class="col-md-6 mt-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="header pb-3">
-                                            <img class="w-100" src="writter/berkas/<?= $show['thumbnail'] ?>" alt="">
-                                            <h6 class="fw-bold text-center mt-2"><?= $show['title'] ?></h6>
-                                            <span class="text-muted"><?= $show['first_name']  . $show['last_name'] ?></span><br>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="text-end">
-                                          <a href="content.php?id=<?= $show['id'] ?>">
-                                            <button class="btn btn-sm text-primary fw-bold">
-                                                   Mulai Membaca
-                                                  </button>
-                                                </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?><br>
+      <div class="row">
+        <div class="col-md-3">
+          <h5 class="fw-bold">Buku Untukmu</h5>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <?php foreach ($tampil as $show) { ?>
+              <div class="col-md-6 mt-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="header pb-3">
+                      <img class="w-100" src="writter/berkas/<?= $show['thumbnail'] ?>" alt="">
+                      <h6 class="fw-bold text-center mt-2"><?= $show['title'] ?></h6>
+                      <span class="text-muted"><?= $show['first_name']  . $show['last_name'] ?></span><br>
                     </div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="text-end">
+                      <a href="content.php?id=<?= $show['id'] ?>">
+                        <button class="btn btn-sm text-primary fw-bold">
+                          Mulai Membaca
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            </div>
-        </section>
+              </div>
+            <?php } ?><br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <footer class="bg-light text-center text-white">
-        <div class="container p-4 pb-0">
-            <section class="mb-4">
-                <a class="btn text-white btn-floating m-1" style="background-color: red;" href="https://www.youtube.com/channel/UC4mViXpUaKG1jnJ6xx35aQQ" role="button"><i class="bi bi-youtube"></i></a>
-                <a class="btn text-white btn-floating m-1" style="background-color: #333333;" href="https://github.com/ItzmeLYNLEN" role="button"><i class="bi bi-github"></i></a>
-                <a class="btn text-white btn-floating m-1" style="background-color: #ac2bac;" href="https://www.instagram.com/dzikraa_24" role="button"><i class="bi bi-instagram"></i></a>
-            </section>
-        </div>
-        </div>
-        <div class="text-center p-3" style="background-color: black;">
-            © 2023 Copyright Gerakan Literasi, Created With
-            <i class="bi bi-heart-fill text-danger"></i> By <a href="https://www.instagram.com/dzikraa_24" class="fw-bold text-white text-decoration-none">Daoa</a>
-        </div>
-    </footer>
+  <footer class="bg-light text-center text-white">
+    
+    <div class="text-center p-3" style="background-color: black;">
+      © 2023 Copyright Gerakan Literasi, Created With
+      <i class="bi bi-heart-fill text-danger"></i> By <a href="https://www.instagram.com/dzikraa_24" class="fw-bold text-white text-decoration-none">Daoa</a>
+    </div>
+  </footer>
 
 
 

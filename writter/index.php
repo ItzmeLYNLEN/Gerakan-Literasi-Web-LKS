@@ -4,7 +4,7 @@ require "../db.php";
 session_start();
 if (!isset($_SESSION['user'])) {
     echo "<script>alert('Mohon login terlebih dahulu')
-  location.replace('login.php')</script>";
+  location.replace('../login.php')</script>";
 }
 
 $id_user = $conn->query("SELECT * FROM users");
@@ -60,6 +60,7 @@ if (isset($_POST['add'])) {
     <title>Content</title>
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 
 <body>
@@ -105,7 +106,7 @@ if (isset($_POST['add'])) {
             Settings
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="../profile">Profile</a></li>
             <li><a class="dropdown-item" href="../logout.php">Log Out</a></li>
           </ul>
         </li>

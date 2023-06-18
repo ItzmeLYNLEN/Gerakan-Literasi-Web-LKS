@@ -2,6 +2,12 @@
 
 include "../db.php";
 
+session_start();
+if (!isset($_SESSION['user'])) {
+  echo "<script>alert('Mohon login terlebih dahulu')
+  location.replace('../login.php')</script>";
+}
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $user = $conn->query("SELECT * FROM users WHERE id = $id")->fetch_assoc();
@@ -39,6 +45,7 @@ location.replace("index.php");</script>';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
     <title>Profile</title>
 </head>
 <body>
@@ -84,7 +91,7 @@ location.replace("index.php");</script>';
                         <form action="" method="POST" enctype="multipart/form-data">
                         <div class="form-grup mb-3">
                                         <label class="form-label" for="">First Name</label>
-                                        <input type="text" required id="fname" name="fname" class="form-control" <?= $user['first_name'] ?>>
+                                        <input type="text" required id="fname" name="fname" class="form-control" >
                                     </div>
                                     <div class="form-grup mb-3">
                                         <label class="form-label" for="">Last Name</label>
@@ -110,12 +117,28 @@ location.replace("index.php");</script>';
                                         </div>
                                     <hr>
                                 <div class="form-group text-end">
-                                <button class="btn btn-primary btn-lg w-100" type="submit" name="update">Save</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Save</button>
                         </form>
                     </div>
                 </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Maaf Karena</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Dikarenakan Developer website ini kurang tau caranya dan waktu yang amat singkat untuk membuat website ini serta banyaknya tugas kenaikan kelas, sementara fitur ini tidak bisa digunakan dahulu. Maaf sudah mengecewakan :)
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
