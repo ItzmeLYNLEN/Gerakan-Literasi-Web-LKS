@@ -1,0 +1,11 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+body{
+    font-family: 'Poppins';
+}
+
+.container .row.gambar {
+    width: 100px;
+    height: 100px;
+}
