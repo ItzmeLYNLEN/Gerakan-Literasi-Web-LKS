@@ -191,7 +191,7 @@ if (isset($_POST['add'])) {
                                     <td><?= $no++ ?></td>
                                     <td><?= $content['title'] ?></td>
                                     <td><?= $content['slug'] ?></td>
-                                    <td><?= $content['thumbnail'] ?></td>
+                                    <td><img style="height: 50px;" src="berkas/<?= $content['thumbnail'] ?>" alt=""></td>
                                     <td><?= $content['category_id'] ?></td>
                                     <td><?= $content['user_id'] ?></td>
                                     <td><?= $content['created_at'] ?></td>
