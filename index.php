@@ -3,8 +3,8 @@ require "db.php";
 
 session_start();
 if (!isset($_SESSION['user'])) {
-    echo "<script>alert('Mohon login terlebih dahulu'); location.replace('login.php');</script>";
-    exit();
+  echo "<script>alert('Mohon login terlebih dahulu'); location.replace('login.php');</script>";
+  exit();
 }
 
 // Jumlah buku per halaman
@@ -39,13 +39,13 @@ $kategori = $conn->query("SELECT * FROM category");
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <title>Home Page</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <title>Home Page</title>
 </head>
 
 <body>
@@ -59,6 +59,9 @@ $kategori = $conn->query("SELECT * FROM category");
         <ul class="navbar-nav nav-underline">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="baca.php">Baca</a>
           </li>
           <?php
           $level = $_SESSION['user'] == 'writter';
@@ -85,21 +88,7 @@ $kategori = $conn->query("SELECT * FROM category");
           <?php } ?>
         </ul>
 
-        <ul class="navbar-nav ms-auto">
-          <div class="dropdown-center">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Book Category
-            </button>
-            <ul class="dropdown-menu">
-              <?php foreach ($kategori as $cat) {  ?>
-              <li><a class="dropdown-item" href="#"><?= $cat['name'] ?></a></li>
-              <?php } ?>
-            </ul>
-          </div>
-          <form method="get" class="d-flex" role="search">
-    <input class="form-control me-2" type="search" placeholder="Search" name="cari" value="<?= htmlspecialchars($search_query) ?>" aria-label="Search">
-    <button class="btn btn-outline-success" type="submit">Search</button>
-</form>
+          <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Settings
@@ -160,74 +149,50 @@ $kategori = $conn->query("SELECT * FROM category");
   </section>
 
   <section id="project">
-        <div class="container mt-5 mb-5">
-            <div class="row">
-                <div class="col-md-3">
-                    <h5 class="fw-bold">Buku Untukmu</h5>
-                </div>
-                <div class="col-md-9">
-                    <div class="row">
-                        <?php foreach ($tampil as $show) { ?>
-                            <div class="col-md-6 mt-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="header pb-3">
-                                            <img class="w-100" style="height: 200px;" src="writter/berkas/<?= $show['thumbnail'] ?>" alt="">
-                                            <h6 class="fw-bold text-center mt-2"><?= $show['title'] ?></h6>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="text-end">
-                                            <a href="content.php?id=<?= $show['id'] ?>">
-                                                <button class="btn btn-sm text-primary fw-bold">
-                                                    Mulai Membaca
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
+    <div class="container mt-5 mb-5">
+      <div class="row">
+        <div class="col-md-3">
+          <h5 class="fw-bold">Buku Untukmu</h5>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <?php foreach ($tampil as $show) { ?>
+              <div class="col-md-6 mt-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="header pb-3">
+                      <img class="w-100" style="height: 200px;" src="writter/berkas/<?= $show['thumbnail'] ?>" alt="">
+                      <h6 class="fw-bold text-center mt-2"><?= $show['title'] ?></h6>
                     </div>
-
-                    <!-- Pagination -->
-                    <nav aria-label="Page navigation example" class="mt-4">
-                        <ul class="pagination justify-content-center">
-                            <!-- Tombol Previous -->
-                            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-                                <a class="page-link" href="?page=<?= $page - 1 ?>" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-
-                            <!-- Tombol untuk setiap halaman -->
-                            <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-                                <li class="page-item <?= $page == $i ? 'active' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                                </li>
-                            <?php } ?>
-
-                            <!-- Tombol Next -->
-                            <li class="page-item <?= $page >= $total_pages ? 'disabled' : '' ?>">
-                                <a class="page-link" href="?page=<?= $page + 1 ?>" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                  </div>
+                  <div class="card-footer">
+                    <div class="text-end">
+                      <a href="content.php?id=<?= $show['id'] ?>">
+                        <button class="btn btn-sm text-primary fw-bold">
+                          Mulai Membaca
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </section>
+              </div>
+            <?php } ?>
+          </div>
 
-    <footer class="bg-light text-center text-white">
-        <div class="text-center p-3" style="background-color: black;">
-            © 2023 Copyright Gerakan Literasi, Created With
-            <i class="bi bi-heart-fill text-danger"></i> By <a href="https://www.instagram.com/dzikraa_24" class="fw-bold text-white text-decoration-none">Daoa</a>
-        </div>
-    </footer>
 
-    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-light text-center text-white">
+    <div class="text-center p-3" style="background-color: black;">
+      © 2023 Copyright Gerakan Literasi, Created With
+      <i class="bi bi-heart-fill text-danger"></i> By <a href="https://www.instagram.com/dzikraa_24" class="fw-bold text-white text-decoration-none">Daoa</a>
+    </div>
+  </footer>
+
+  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

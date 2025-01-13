@@ -91,7 +91,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <p align="right"><?= htmlspecialchars($content['created_at']) ?></p>
                     <hr>
                     <div class="container">
-                        <a href="index.php">
+                        <a href="baca.php">
                             <button class="btn btn-warning btn-lg text-white mt-4"><i class="bi bi-arrow-90deg-left"></i> Kembali</button>
                         </a>
                     </div>

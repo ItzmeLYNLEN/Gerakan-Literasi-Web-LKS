@@ -20,7 +20,7 @@ function createSlug($string) {
     return $slug;
   }
 
-if (isset($_POST['add'])) {
+  if (isset($_POST['add'])) {
     $judul = $_POST['judul'];
     $slug = createSlug($judul);
     $body = $_POST['body'];
@@ -28,9 +28,14 @@ if (isset($_POST['add'])) {
     $user = $_POST['user'];
     $direktori = "berkas/";
     $thumbnail = $_FILES['thumbnail']['name'];
-    move_uploaded_file($_FILES['thumbnail']['tmp_name'],$direktori.$thumbnail);
+    move_uploaded_file($_FILES['thumbnail']['tmp_name'], $direktori . $thumbnail);
 
-    $simpan = $conn->query("INSERT INTO content VALUES(NULL,'$judul', '$slug', '$body', '$thumbnail', NULL, NULL ,'$cat', '$user' , NULL)");
+    // Tambahkan waktu sekarang
+    $date_now = date('Y-m-d H:i:s');
+
+    // Sertakan created_at dalam query
+    $simpan = $conn->query("INSERT INTO content VALUES(NULL,'$judul', '$slug', '$body', '$thumbnail', 0, '$date_now' ,'$cat', '$user' , NULL)");
+
 
     if ($simpan) {
         echo '<script>alert("Konten Berhasil Ditambahkan");
