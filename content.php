@@ -3,8 +3,9 @@ require "db.php";
 
 session_start();
 if (!isset($_SESSION['user'])) {
-    echo "<script>alert('Mohon login terlebih dahulu'); location.replace('login.php');</script>";
-    exit();
+    $is_logged_in = false;
+} else {
+    $is_logged_in = true;
 }
 
 
@@ -47,6 +48,35 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 </head>
 
 <body>
+<?php if (!$is_logged_in) { ?>
+        <!-- Modal untuk Validasi Login -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="loginModalLabel">Login Diperlukan</h5>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h5>Anda harus login untuk mengakses halaman ini!</h5>
+                        <p>Silakan login untuk menikmati koleksi buku kami.</p>
+                    </div>
+                    <div class="modal-footer"> <a href="login.php" class="btn btn-primary w-100">Login Sekarang</a> </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Tampilkan modal secara otomatis 
+            document.addEventListener("DOMContentLoaded",
+                function() {
+                    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    loginModal.show();
+                });
+        </script> <?php } ?>
+
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <a class="navbar-brand" href="#">Literasi</a>

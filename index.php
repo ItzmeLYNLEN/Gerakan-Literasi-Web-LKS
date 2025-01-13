@@ -2,10 +2,9 @@
 require "db.php";
 
 session_start();
-if (!isset($_SESSION['user'])) {
-  echo "<script>alert('Mohon login terlebih dahulu'); location.replace('login.php');</script>";
-  exit();
-}
+
+// Periksa apakah user login
+$is_logged_in = isset($_SESSION['user']);
 
 // Jumlah buku per halaman
 $books_per_page = 4;
@@ -45,37 +44,33 @@ $kategori = $conn->query("SELECT * FROM category");
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
   <title>Home Page</title>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container">
-      <a class="navbar-brand" href="#">Literasi</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav nav-underline">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="baca.php">Baca</a>
-          </li>
-          <?php
-          $level = $_SESSION['user'] == 'writter';
-          if ($level) {
-          ?>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="#">Literasi</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav nav-underline">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="baca.php">Baca</a>
+        </li>
+        <?php if ($is_logged_in) { ?>
+          <?php if ($_SESSION['user'] == 'writter') { ?>
             <li class="nav-item">
               <a class="nav-link" href="writter">Content</a>
             </li>
           <?php } ?>
-          <?php
-          $level = $_SESSION['user'] == 'admin';
-          if ($level) {
-
-          ?>
+          <?php if ($_SESSION['user'] == 'admin') { ?>
             <li class="nav-item">
               <a class="nav-link" href="user">User</a>
             </li>
@@ -86,22 +81,31 @@ $kategori = $conn->query("SELECT * FROM category");
               <a class="nav-link" href="writter">Content</a>
             </li>
           <?php } ?>
-        </ul>
+        <?php } ?>
+      </ul>
 
-          <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown">
+      <ul class="navbar-nav ms-auto">
+    <?php if ($is_logged_in) { ?>
+        <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Settings
+                Settings
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="profile">Profile</a></li>
-              <li><a class="dropdown-item" href="logout.php">Log Out</a></li>
+                <li><a class="dropdown-item" href="profile">Profile</a></li>
+                <li><a class="dropdown-item" href="#" id="logout">Log Out</a></li>
             </ul>
-          </li>
-        </ul>
-      </div>
+        </li>
+    <?php } else { ?>
+        <li class="nav-item">
+            <a class="nav-link" href="login.php">Login</a>
+        </li>
+    <?php } ?>
+</ul>
+
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <section id="banner">
     <div class="container mt-5 mb-5">
@@ -194,5 +198,30 @@ $kategori = $conn->query("SELECT * FROM category");
 
   <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const logoutButton = document.getElementById('logout');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Mencegah tautan langsung ke logout.php
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: 'Apakah Anda yakin ingin keluar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, keluar',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'logout.php'; // Arahkan ke logout jika dikonfirmasi
+                    }
+                });
+            });
+        }
+    });
+</script>
+
 
 </html>
